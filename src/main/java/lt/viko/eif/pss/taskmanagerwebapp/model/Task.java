@@ -1,16 +1,15 @@
 package lt.viko.eif.pss.taskmanagerwebapp.model;
 
 import jakarta.persistence.*;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
+import lombok.*;
 
 import java.time.LocalDateTime;
 
 @Data
 @NoArgsConstructor(force = true)
 @RequiredArgsConstructor
+@AllArgsConstructor
+@Builder
 @Entity
 @Table(name = "tasks")
 public class Task {
@@ -22,10 +21,10 @@ public class Task {
     private String name;
     @Column(length = 2000)
     private String description;
-    @Column(updatable = false)
+/*    @Column(updatable = false)
     private LocalDateTime createdAt;
     @Column(insertable = false)
-    private LocalDateTime lastUpdatedAt;
-    @ManyToOne(cascade=CascadeType.PERSIST)
+    private LocalDateTime lastUpdatedAt;*/
+    @ManyToOne(cascade=CascadeType.ALL)
     private User user;
 }

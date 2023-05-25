@@ -10,6 +10,7 @@ import lt.viko.eif.pss.taskmanagerwebapp.repository.TaskRepository;
 import lt.viko.eif.pss.taskmanagerwebapp.model.Task;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.http.HttpStatus;
@@ -20,6 +21,8 @@ import org.springframework.web.server.ResponseStatusException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.Collection;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
@@ -48,21 +51,21 @@ class TaskController {
      *
      * @return A collection of Task objects.
      */
-    @GetMapping("/tasks")
+/*    @GetMapping("/tasks")
     Collection<Task> Tasks() {
         return taskRepository.findAll();
-    }
+    }*/
 
-/*    @GetMapping("/tasks")
+    @GetMapping("/tasks")
     CollectionModel<EntityModel<Task>> Tasks() {
-        List<EntityModel<Task>> Tasks = TaskRepository.findAll().stream()
+        List<EntityModel<Task>> Tasks = taskRepository.findAll().stream()
                 .map(Task -> EntityModel.of(Task,
                         WebMvcLinkBuilder.linkTo(methodOn(TaskController.class).getTask(Task.getId())).withSelfRel()))
                 .collect(Collectors.toList());
 
         return CollectionModel.of(Tasks,
                 WebMvcLinkBuilder.linkTo(methodOn(TaskController.class).Tasks()).withSelfRel());
-    }*/
+    }
 
 /*    @GetMapping("/tasks/{id}")
     ResponseEntity<?> getTask(@PathVariable Long id) {
