@@ -4,10 +4,23 @@ A task manager web app is a project management tool designed to help individuals
 1. Install [Java 20 SDK](https://www.oracle.com/java/technologies/downloads/)
 2. Install [IntelliJ IDEA](https://www.jetbrains.com/idea/download/) (Ultimate/Community Edition)
 3. Install [Maven](https://maven.apache.org/download.cgi)
-4. Clone GitHub repository 
-5. Open project in IntelliJ IDEA
-6. Run Back-End by selecting "Run" or "Shift+F10"
-7. TBD
+4. Install MySQL database from [MySQL Installer](https://dev.mysql.com/downloads/installer/) or run on Docker following guide [Docker MySQL](https://geshan.com.np/blog/2022/02/mysql-docker-compose/)
+5. Check if MySQL database is running on the machine or as a Docker container
+6. Clone GitHub repository 
+7. Open project in IntelliJ IDEA
+8. Update database connection string, username and password in [application.yml](src%2Fmain%2Fresources%2Fapplication.yml) file if needed
+9. Configure Front-End by selecting "Maven->Install" in the Maven menu.
+10. Run Back-End by selecting "Run" or "Shift+F10"
+
+
+## Project URL's:
+
+#### Front-End: http://localhost:8080
+#### API: http://localhost:8080/api
+#### API Docs: http://localhost:8080/v3/api-docs
+#### API Docs in yaml format: http://localhost:8080/v3/api-docs.yaml
+#### Swagger: http://localhost:8080/swagger-ui/index.html
+
 
 ## Troubleshooting
 Describes common issues while running a project
