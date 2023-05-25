@@ -1,5 +1,10 @@
 package lt.viko.eif.pss.taskmanagerwebapp.controller;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.validation.Valid;
 import lt.viko.eif.pss.taskmanagerwebapp.repository.TaskRepository;
 import lt.viko.eif.pss.taskmanagerwebapp.model.Task;
@@ -36,6 +41,7 @@ class TaskController {
      * @return A collection of Task objects.
      */
 
+
     @GetMapping("/tasks")
     Collection<Task> Tasks() {
         return taskRepository.findAll();
@@ -59,6 +65,15 @@ class TaskController {
                 .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }*/
 
+    @Operation(summary = "Get a task by its id")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Found the task",
+                    content = {@Content(mediaType = "application/json",
+                            schema = @Schema(implementation = Task.class))}),
+            @ApiResponse(responseCode = "400", description = "Invalid id supplied",
+                    content = @Content),
+            @ApiResponse(responseCode = "404", description = "Task not found",
+                    content = @Content)})
     @GetMapping("/tasks/{id}")
     EntityModel<Task> getTask(@PathVariable Long id) {
         Task Task = taskRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));

@@ -1,6 +1,7 @@
 package lt.viko.eif.pss.taskmanagerwebapp.model;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
@@ -15,6 +16,7 @@ import lombok.NoArgsConstructor;
 public class User {
 
     @Id
+    @GeneratedValue
     private String id;
     private String name;
     private String email;
