@@ -9,7 +9,9 @@ const Home = () => {
         <div>
             <AppNavbar/>
             <Container fluid>
-                <Button color="link"><Link to="/tasks">Manage Tasks</Link></Button>
+                <Button color="link"><Link to="/tasks">Tasks</Link></Button>
+                <Button color="link"><Link to="/users">Users</Link></Button>
+                <Button color="link"><Link to="/stuff">Other Stuff</Link></Button>
             </Container>
         </div>
     );

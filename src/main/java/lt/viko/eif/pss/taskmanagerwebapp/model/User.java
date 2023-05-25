@@ -14,10 +14,9 @@ import lombok.NoArgsConstructor;
 @Entity
 @Table(name = "users")
 public class User {
-
     @Id
     @GeneratedValue
-    private String id;
+    private Long id;
     private String name;
     private String email;
 }

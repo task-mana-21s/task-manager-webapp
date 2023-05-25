@@ -24,6 +24,9 @@ import java.util.Collection;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 
+/**
+ * The type Task controller.
+ */
 @RestController
 @RequestMapping("/api")
 class TaskController {
@@ -31,6 +34,11 @@ class TaskController {
     private final Logger log = LoggerFactory.getLogger(TaskController.class);
     private TaskRepository taskRepository;
 
+    /**
+     * Instantiates a new Task controller.
+     *
+     * @param taskRepository the task repository
+     */
     public TaskController(TaskRepository taskRepository) {
         this.taskRepository = taskRepository;
     }
@@ -40,8 +48,6 @@ class TaskController {
      *
      * @return A collection of Task objects.
      */
-
-
     @GetMapping("/tasks")
     Collection<Task> Tasks() {
         return taskRepository.findAll();
@@ -65,6 +71,12 @@ class TaskController {
                 .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }*/
 
+    /**
+     * Gets task.
+     *
+     * @param id the id
+     * @return the task
+     */
     @Operation(summary = "Get a task by its id")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Found the task",
@@ -81,6 +93,13 @@ class TaskController {
                 WebMvcLinkBuilder.linkTo(methodOn(TaskController.class).Tasks()).withRel("tasks"));
     }
 
+    /**
+     * Create task response entity.
+     *
+     * @param Task the task
+     * @return the response entity
+     * @throws URISyntaxException the uri syntax exception
+     */
     @PostMapping("/tasks")
     ResponseEntity<Task> createTask(@Valid @RequestBody Task Task) throws URISyntaxException {
         log.info("Request to create Task: {}", Task);
@@ -89,6 +108,12 @@ class TaskController {
                 .body(result);
     }
 
+    /**
+     * Update task response entity.
+     *
+     * @param Task the task
+     * @return the response entity
+     */
     @PutMapping("/tasks/{id}")
     ResponseEntity<Task> updateTask(@Valid @RequestBody Task Task) {
         log.info("Request to update Task: {}", Task);
@@ -96,6 +121,12 @@ class TaskController {
         return ResponseEntity.ok().body(result);
     }
 
+    /**
+     * Delete task response entity.
+     *
+     * @param id the id
+     * @return the response entity
+     */
     @DeleteMapping("/Task/{id}")
     public ResponseEntity<?> deleteTask(@PathVariable Long id) {
         log.info("Request to delete Task: {}", id);

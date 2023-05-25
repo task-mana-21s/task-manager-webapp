@@ -10,7 +10,10 @@ public class TaskManagerWebappApplication {
 		SpringApplication.run(TaskManagerWebappApplication.class, args);
 	}
 
+	// http://localhost:8080
+	// http://localhost:8080/api
 	// http://localhost:8080/v3/api-docs
+	// http://localhost:8080/v3/api-docs.yaml
 	// http://localhost:8080/swagger-ui/index.html
 
 }
