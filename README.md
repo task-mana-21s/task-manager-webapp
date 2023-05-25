@@ -17,12 +17,13 @@ Describes common issues while running a project
 
 
 ## Git Flow
-1. **Create a new branch:** Before making any changes to your code, create a new branch in IDE. This allows you to work on your code independently of the main branch. You can do this by clicking on the "Git->New Branch" button and typing in a name for your new branch.
-2. **Make changes:** Once you have created a new branch, make the changes you want to your code. This could be fixing a bug, adding a new feature, or updating documentation.
-3. **Commit changes:** Once you have made your changes, commit them to your branch. This creates a snapshot of your code at a specific point in time. You can do this by clicking on the "Git->Commit" button and typing in a message describing your changes.
-4. **Push changes to GitHub:** After committing your changes, push them to GitHub. This uploads your changes to the repository and makes them available to others. You can do this by clicking on the "Git->Push" button in your IDE.
-5. **Create a pull request:** Once you have pushed your changes, create a pull request. This notifies others that you have made changes and allows them to review and merge your code. You can do this by clicking on the "Create pull request" button in GitHub.
-6. **Merge changes:** After your pull request has been reviewed and approved, merge your changes into the main branch. This incorporates your changes into the main codebase. You can do this by clicking on the "Merge pull request" button in GitHub.
+1. **Make Pull Request:** ALWAYS update project before starting new work. You can do this by clicking on "Git->Pull" button.
+2. **Create a new branch:** Before making any changes to your code, create a new branch in IDE. This allows you to work on your code independently of the main branch. You can do this by clicking on the "Git->New Branch" button and typing in a name for your new branch.
+3. **Make changes:** Once you have created a new branch, make the changes you want to your code. This could be fixing a bug, adding a new feature, or updating documentation.
+4. **Commit changes:** Once you have made your changes, commit them to your branch. This creates a snapshot of your code at a specific point in time. You can do this by clicking on the "Git->Commit" button and typing in a message describing your changes.
+5. **Push changes to GitHub:** After committing your changes, push them to GitHub. This uploads your changes to the repository and makes them available to others. You can do this by clicking on the "Git->Push" button in your IDE.
+6. **Create a pull request:** Once you have pushed your changes, create a pull request. This notifies others that you have made changes and allows them to review and merge your code. You can do this by clicking on the "Create pull request" button in GitHub.
+7. **Merge changes:** After your pull request has been reviewed and approved, merge your changes into the main branch. This incorporates your changes into the main codebase. You can do this by clicking on the "Merge pull request" button in GitHub.
 
 ## Contributors
 * Vardenis
