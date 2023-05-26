@@ -2,15 +2,16 @@
 A task manager web app is a project management tool designed to help individuals and teams manage their tasks efficiently. It allows users to create projects, break them down into tasks, assign tasks to team members, set deadlines, track progress, and collaborate with others in real-time. The app provides a visual representation of tasks and projects, making it easy to see what needs to be done and when. It can be used for personal or professional projects, and is a great way to stay organized and increase productivity.
 ## Setup
 1. Install [Java 20 SDK](https://www.oracle.com/java/technologies/downloads/)
-2. Install [IntelliJ IDEA](https://www.jetbrains.com/idea/download/) (Ultimate/Community Edition)
-3. Install [Maven](https://maven.apache.org/download.cgi)
-4. Install MySQL database from [MySQL Installer](https://dev.mysql.com/downloads/installer/) or run on Docker following guide [Docker MySQL](https://geshan.com.np/blog/2022/02/mysql-docker-compose/)
-5. Check if MySQL database is running on the machine or as a Docker container
-6. Clone GitHub repository 
-7. Open project in IntelliJ IDEA
-8. Update database connection string, username and password in [application.yml](src%2Fmain%2Fresources%2Fapplication.yml) file if needed
-9. Configure Front-End by selecting "Maven->Install" in the Maven menu.
-10. Run Back-End by selecting "Run" or "Shift+F10"
+2. Download and install [Node.js and npm](https://docs.npmjs.com/cli/v7/configuring-npm/install)
+3. Download [Maven](https://maven.apache.org/download.cgi) and then [Setup](https://phoenixnap.com/kb/install-maven-windows)
+4. Install [IntelliJ IDEA](https://www.jetbrains.com/idea/download/) (Ultimate/Community Edition)
+5. Install MySQL database from [MySQL Installer](https://dev.mysql.com/downloads/installer/) or run on Docker following guide [Docker MySQL](https://geshan.com.np/blog/2022/02/mysql-docker-compose/)
+6. Check if MySQL database is running on the machine or as a Docker container
+7. Clone GitHub repository 
+8. Open project in IntelliJ IDEA
+9. Update database connection string, username and password in [application.yml](src%2Fmain%2Fresources%2Fapplication.yml) file if needed
+10. Configure Front-End by selecting "Maven->Install" in the Maven menu.
+11. Run Back-End by selecting "Run" or "Shift+F10"
 
 
 ## Project URL's:
@@ -26,7 +27,8 @@ A task manager web app is a project management tool designed to help individuals
 Describes common issues while running a project
 
 * Check if Java is installed correctly in your machine: open terminal, run command "java --version". It should display "java 20.0.1 2023-04-18..." or similar message
-* Check if Maven is installed correctly in your machine: pen terminal, run command "mvn -version". It should display "Apache Maven 3.9.1..." or similar message
+* Check if Maven is installed correctly in your machine: open terminal, run command "mvn -version". It should display "Apache Maven 3.9.1..." or similar message
+* Check if Node.js and npm installed correctly in your machine: open terminal, run commands "node -v","npm -v". It should display vesrion numbers "9.5.1" or similar message
 
 
 ## Git Flow
