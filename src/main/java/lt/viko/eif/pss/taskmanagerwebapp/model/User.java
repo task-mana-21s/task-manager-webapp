@@ -1,13 +1,13 @@
 package lt.viko.eif.pss.taskmanagerwebapp.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+
+import java.time.LocalDateTime;
 
 @Data
 @NoArgsConstructor
@@ -18,7 +18,13 @@ import lombok.NoArgsConstructor;
 public class User {
     @Id
     @GeneratedValue
-    private Long id;
-    private String name;
+    private Long user_id;
+    @Column(unique=true)
+    private String username;
+    private String password;
     private String email;
+    private Long role_id;
+    private LocalDateTime created_at;
+    private LocalDateTime updated_at;
+
 }
