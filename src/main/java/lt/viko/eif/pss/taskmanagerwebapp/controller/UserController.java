@@ -15,6 +15,7 @@ import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
@@ -32,6 +33,7 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
  * The type User controller.a
  */
 @RestController
+@CrossOrigin
 @RequestMapping("/api")
 class UserController {
 
@@ -56,6 +58,7 @@ class UserController {
 
     @GetMapping("/users")
     CollectionModel<EntityModel<User>> Users() {
+        log.info("GET ALL USERS request");
         List<EntityModel<User>> users = userRepository.findAll().stream()
                 .map(user -> EntityModel.of(user,
                         WebMvcLinkBuilder.linkTo(methodOn(UserController.class).getUser(user.getUser_id())).withSelfRel()))
@@ -94,9 +97,9 @@ class UserController {
      * @return the response entity
      * @throws URISyntaxException the uri syntax exception
      */
-    @PostMapping("/users")
+    @PostMapping("/register")
     ResponseEntity<User> createUser(@Valid @RequestBody User user) throws URISyntaxException {
-        log.info("Request to create User: {}", user);
+        log.info("Request to register User: {}", user);
         if(userRepository.findByUsername(user.getUsername())!= null){
             throw new ResponseStatusException(HttpStatus.IM_USED);
         }
@@ -105,6 +108,28 @@ class UserController {
         return ResponseEntity.created(new URI("/api/users/" + result.getUser_id()))
                 .body(result);
     }
+    /**
+     * Signin user response entity.
+     *
+     * @param user
+     * @return the response entity
+     * @throws URISyntaxException the uri syntax exception
+     */
+    @PostMapping("/login")
+    ResponseEntity<User> singinUser(@Valid @RequestBody User user) throws URISyntaxException {
+        log.error("Request to login User: {}", user);
+        User userToBeChecked = this.userRepository.findByUsername(user.getUsername());
+        if(userToBeChecked == null){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        if(!HashUtil.checkPassword(user.getPassword(),userToBeChecked.getPassword())){
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        }
+        return new ResponseEntity<User>(userToBeChecked,HttpStatus.OK);
+    }
+
+
+
 
     /**
      * Update user response entity.

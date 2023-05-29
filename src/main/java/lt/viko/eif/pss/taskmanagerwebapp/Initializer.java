@@ -30,9 +30,9 @@ class Initializer implements CommandLineRunner {
                 .build();
         userRepository.save(user);
         var user2 = User.builder()
-                .username("Petras Petraitis")
+                .username("test")
                 .email("test123@ff.tt")
-                .password(HashUtil.encryptPassword("password123"))
+                .password(HashUtil.encryptPassword("12345"))
                 .build();
         userRepository.save(user2);
                 var author = Task.builder()
@@ -46,7 +46,11 @@ class Initializer implements CommandLineRunner {
                 .description("Testing and other things")
                 .build();
         taskRepository.save(author2);
-
+        var author3 = Task.builder()
+                .name("Testing task3")
+                .description("Testing and other things3")
+                .build();
+        taskRepository.save(author3);
 
         taskRepository.findAll().forEach(System.out::println);
     }

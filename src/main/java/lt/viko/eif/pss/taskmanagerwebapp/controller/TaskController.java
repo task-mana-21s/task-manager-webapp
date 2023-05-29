@@ -31,6 +31,7 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
  * The type Task controller.
  */
 @RestController
+@CrossOrigin(origins ="http://localhost:3000")
 @RequestMapping("/api")
 class TaskController {
 
@@ -130,8 +131,9 @@ class TaskController {
      * @param id the id
      * @return the response entity
      */
-    @DeleteMapping("/Task/{id}")
-    public ResponseEntity<?> deleteTask(@PathVariable Long id) {
+    @CrossOrigin
+    @RequestMapping(value="/tasks/{id}", method=RequestMethod.DELETE)
+    public ResponseEntity<Void> deleteTask(@PathVariable Long id) {
         log.info("Request to delete Task: {}", id);
         taskRepository.deleteById(id);
         return ResponseEntity.ok().build();
