@@ -17,7 +17,7 @@ public class Task {
     @GeneratedValue
     private Long id;
     @NonNull
-    @Column(name = "f_name")
+    @Column(name = "title")
     private String name;
     @Column(length = 2000)
     private String description;
@@ -25,6 +25,20 @@ public class Task {
     private LocalDateTime createdAt;
     @Column(insertable = false)
     private LocalDateTime lastUpdatedAt;*/
+    @Column(name = "due_date")
+    private LocalDateTime dueDate;
+
+    @Column(name = "priority")
+    private String priority;
+
+    @Column(name = "status")
+    private String status;
+
+    @Column(name = "created_at")
+    private LocalDateTime createdAt;
+
+    @Column(name = "updated_at")
+    private LocalDateTime updatedAt;
     @ManyToOne(cascade=CascadeType.ALL)
     private User user;
 }
