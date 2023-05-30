@@ -1,6 +1,6 @@
 import axios from "axios";
 import { taskData } from "../../types";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import * as React from 'react';
 import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
@@ -9,10 +9,15 @@ import CardContent from '@mui/material/CardContent';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import { TextField } from "@mui/material";
+import Edit from "./Edit";
 
 
 function TaskPage() {
   const [fetchData, setFetchData] = useState([]);
+
+  const [updateState, setUpdateState] = useState(-1)
+  const [editName, setEditName] = useState("");
+  const [editDescription, setEditDescription] = useState("");
   const getTaskRequest = async () => {
     try {
       const { data: response } = await axios.get(
@@ -29,7 +34,6 @@ function TaskPage() {
   };
 
   const updateTaskRequest = async (task:any) => {
-
     const {id} = task;
     try {
       const { data: response } = await axios.put(
@@ -37,12 +41,15 @@ function TaskPage() {
         {
           id:task.id,
           name: editName,
-          description: task.description,
+          description: editDescription,
 
       },
         {headers: {"Access-Control-Allow-Origin": "*"}},
       );
-      setUpdateState(-1)
+      setUpdateState(-1);
+      setEditName("");
+      setEditDescription("");
+      getTaskRequest();
       
     } catch (error) {
       console.log(error);
@@ -51,12 +58,6 @@ function TaskPage() {
 const handleEdit= (id:number) =>{
   setUpdateState(id)
 }
-const handleInput=(e:any)=>{
-  console.log("HANDLE ASDAOSD;LSAD")
-  console.log(e.target.value);
-  console.log(editName);
-  setEditName(e.target.value);
-}
   const deleteTaskRequest = async (id:number) => {
 
     try {
@@ -64,6 +65,7 @@ const handleInput=(e:any)=>{
         "http://localhost:8080/api/tasks/"+id.toString(),
         {headers: {"Access-Control-Allow-Origin": "*"}}
       );
+      setFetchData(fetchData.filter((task:taskData)=>task.id!==id));
     } catch (error) {
       console.log(error);
     }
@@ -73,40 +75,12 @@ const handleInput=(e:any)=>{
     getTaskRequest();
   }, []);
 
-  const [updateState, setUpdateState] = useState(-1)
-  const [editName, setEditName] = useState("");
-  const Edit= ({task}:any) => {
-    return (  
-    <Box  sx={{ minWidth: 250 }}>
-      <Card style={{ backgroundColor: "rgba(192, 245, 190 )", width: "50%"}} variant="outlined">  <React.Fragment>
-        <CardContent>
-          <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
-            {task.user?.username}
-          </Typography>
-          <TextField id="outlined-basic" label="Task name" variant="outlined" value={editName} defaultValue={task.name} onChange={handleInput} style={{margin:"10px"}}/>
-          <TextField id="outlined-basic" label="Description" variant="outlined" defaultValue={task.description} style={{margin:"10px"}}/>
-            
-  
-          <Typography variant="body2">
-            {task.description}
-          </Typography>
-        </CardContent>
-        <CardActions>
-          <Button variant="contained" type="submit" onClick={()=>{updateTaskRequest(task)}}>Submit</Button>
-          <Button variant="contained" type="submit" color="error" onClick={()=>{setUpdateState(-1)}}>Cancel</Button>
-  
-        </CardActions>
-      </React.Fragment></Card>
-    </Box> );
-  }  
-  if(fetchData.length<1){
-    return (<></>)
-  }else{
+
     return (
       <div>
       {fetchData.map((task: taskData) => {
         return (
-          updateState===task.id ? <Edit task={task}/> :
+          updateState===task.id ? <Edit task={task} editName={editName} editDescription={editDescription} setEditName={setEditName} updateTaskRequest={updateTaskRequest} setUpdateState={setUpdateState} setEditDescription={setEditDescription} /> :
           <Box key={task.id} sx={{ minWidth: 250 }}>
             <Card style={{ backgroundColor: "rgba(192, 245, 190 )", width: "50%" }} variant="outlined">  <React.Fragment>
               <CardContent>
@@ -134,7 +108,7 @@ const handleInput=(e:any)=>{
         );
         
       })}</div>);
-    }
+
     
 }
 

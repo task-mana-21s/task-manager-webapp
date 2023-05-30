@@ -37,8 +37,6 @@ function NavigationBar() {
     setAnchorElNav(null);
   };
   const navigateTo = (page: string) => {
-    console.log("AAA");
-    console.log(page);
     if(page === "Logout"){
         localStorage.removeItem("user");
         return navigate("/login");
@@ -124,7 +122,7 @@ function NavigationBar() {
               textDecoration: "none",
             }}
           >
-            LOGO
+            TasksApplication
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
             {pages.map((page) => (

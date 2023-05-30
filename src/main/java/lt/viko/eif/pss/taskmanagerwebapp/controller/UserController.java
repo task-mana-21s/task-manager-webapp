@@ -33,8 +33,8 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
  * The type User controller.a
  */
 @RestController
-@CrossOrigin
 @RequestMapping("/api")
+@CrossOrigin
 class UserController {
 
     private final Logger log = LoggerFactory.getLogger(UserController.class);
@@ -101,7 +101,7 @@ class UserController {
     ResponseEntity<User> createUser(@Valid @RequestBody User user) throws URISyntaxException {
         log.info("Request to register User: {}", user);
         if(userRepository.findByUsername(user.getUsername())!= null){
-            throw new ResponseStatusException(HttpStatus.IM_USED);
+            throw new ResponseStatusException(HttpStatus.CONFLICT);
         }
         user.setPassword(HashUtil.encryptPassword(user.getPassword()));
         User result = userRepository.save(user);
@@ -127,7 +127,6 @@ class UserController {
         }
         return new ResponseEntity<User>(userToBeChecked,HttpStatus.OK);
     }
-
 
 
 
@@ -157,6 +156,7 @@ class UserController {
      * @param id the id
      * @return the response entity
      */
+    @CrossOrigin
     @DeleteMapping("/users/{id}")
     public ResponseEntity<?> deleteUser(@PathVariable Long id) {
         log.info("Request to delete User: {}", id);
