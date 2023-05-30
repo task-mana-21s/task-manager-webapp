@@ -21,10 +21,6 @@ public class Task {
     private String name;
     @Column(length = 2000)
     private String description;
-/*    @Column(updatable = false)
-    private LocalDateTime createdAt;
-    @Column(insertable = false)
-    private LocalDateTime lastUpdatedAt;*/
     @Column(name = "due_date")
     private LocalDateTime dueDate;
 
