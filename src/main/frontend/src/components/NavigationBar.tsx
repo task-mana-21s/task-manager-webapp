@@ -13,12 +13,27 @@ import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 import AdbIcon from "@mui/icons-material/Adb";
 import { useNavigate } from "react-router-dom";
+import { useState } from "react";
 
-const pages = ["tasks","register"];
+const pages = ["tasks"];
 const settings = ["Profile","Logout"];
 
 function NavigationBar() {
   const navigate = useNavigate();
+  let [loggedIn, setLoggedIn] = useState(false);
+
+
+  React.useEffect(() => {
+    let user = localStorage.getItem("user");
+    let userObj;
+    if(user){
+      userObj = JSON.parse(user!);
+    }
+    if(userObj && userObj.username && userObj.password && userObj.username!== "" && userObj.password !== ""){
+        setLoggedIn(true);
+    }
+  
+  }, [navigate]);
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(
     null
   );
@@ -39,6 +54,7 @@ function NavigationBar() {
   const navigateTo = (page: string) => {
     if(page === "Logout"){
         localStorage.removeItem("user");
+        setLoggedIn(false);
         return navigate("/login");
     }
 
@@ -99,7 +115,7 @@ function NavigationBar() {
               }}
             >
               {pages.map((page) => (
-                <MenuItem key={page} onClick={handleCloseNavMenu}>
+                <MenuItem key={page} sx={{display:"flex"}} onClick={handleCloseNavMenu} >
                   <Typography textAlign="center">{page}</Typography>
                 </MenuItem>
               ))}
@@ -113,7 +129,7 @@ function NavigationBar() {
             href=""
             sx={{
               mr: 2,
-              display: { xs: "flex", md: "none" },
+              display: { xs: "flex", md: "flex" },
               flexGrow: 1,
               fontFamily: "monospace",
               fontWeight: 700,
@@ -124,7 +140,8 @@ function NavigationBar() {
           >
             TasksApplication
           </Typography>
-          <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
+          <Box style={{flexDirection: "row-reverse",
+                    marginRight: "2%"}} sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
             {pages.map((page) => (
               <Button
                 key={page}
@@ -140,7 +157,7 @@ function NavigationBar() {
             ))}
           </Box>
 
-          <Box sx={{ flexGrow: 0 }}>
+          {loggedIn&& <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                 <Avatar alt="Remy Sharp" src="" />
@@ -171,7 +188,7 @@ function NavigationBar() {
                 </MenuItem>
               ))}
             </Menu>
-          </Box>
+          </Box>}
         </Toolbar>
       </Container>
     </AppBar>
