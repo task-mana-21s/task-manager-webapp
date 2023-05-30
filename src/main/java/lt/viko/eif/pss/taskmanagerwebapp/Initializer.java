@@ -4,6 +4,7 @@ import lt.viko.eif.pss.taskmanagerwebapp.model.Task;
 import lt.viko.eif.pss.taskmanagerwebapp.model.User;
 import lt.viko.eif.pss.taskmanagerwebapp.repository.TaskRepository;
 import lt.viko.eif.pss.taskmanagerwebapp.repository.UserRepository;
+import lt.viko.eif.pss.taskmanagerwebapp.util.HashUtil;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
@@ -21,19 +22,20 @@ class Initializer implements CommandLineRunner {
 
     @Override
     public void run(String... strings) {
+
         var user = User.builder()
-                .name("Jonas Joanitis")
+                .username("Jonas Joanitis")
                 .email("test@ff.tt")
+                .password(HashUtil.encryptPassword("12345"))
                 .build();
         userRepository.save(user);
         var user2 = User.builder()
-                .name("Petras Petraitis")
+                .username("Petras Petraitis")
                 .email("test123@ff.tt")
+                .password(HashUtil.encryptPassword("password123"))
                 .build();
         userRepository.save(user2);
-
-
-        var author = Task.builder()
+                var author = Task.builder()
                 .name("Dev task")
                 .description("Dev and other things")
                 .build();
