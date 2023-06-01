@@ -13,8 +13,7 @@ import Edit from "./Edit";
 
 
 function TaskPage() {
-  const [fetchData, setFetchData] = useState([]);
-
+  const [listOfTasks, setListOfTasks] = useState([]);
   const [updateState, setUpdateState] = useState(-1)
   const [editName, setEditName] = useState("");
   const [editDescription, setEditDescription] = useState("");
@@ -26,7 +25,7 @@ function TaskPage() {
       if(response._embedded === undefined && response._embedded?.taskList===undefined ){
         return;
       }
-      setFetchData(response._embedded.taskList);
+      setListOfTasks(response._embedded.taskList);
       return response;
     } catch (error) {
       console.log(error);
@@ -65,7 +64,7 @@ const handleEdit= (id:number) =>{
         "http://localhost:8080/api/tasks/"+id.toString(),
         {headers: {"Access-Control-Allow-Origin": "*"}}
       );
-      setFetchData(fetchData.filter((task:taskData)=>task.id!==id));
+      setListOfTasks(listOfTasks.filter((task:taskData)=>task.id!==id));
     } catch (error) {
       console.log(error);
     }
@@ -78,7 +77,7 @@ const handleEdit= (id:number) =>{
 
     return (
       <div>
-      {fetchData.map((task: taskData) => {
+      {listOfTasks.map((task: taskData) => {
         return (
           updateState===task.id ? <Edit task={task} editName={editName} editDescription={editDescription} setEditName={setEditName} updateTaskRequest={updateTaskRequest} setUpdateState={setUpdateState} setEditDescription={setEditDescription} /> :
           <Box key={task.id} sx={{ minWidth: 250 }}>

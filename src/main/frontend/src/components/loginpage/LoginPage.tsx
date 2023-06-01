@@ -28,9 +28,24 @@ function LoginPage() {
   //React Hook to set a state and change based on the current status
   let [user, setUser] = useState<userData | null>(null);
   let [status, setStatus] = useState("idle");
+  let [error, setError] = useState("");
   let [username, setUsername] = useState("");
   let [password, setPassword] = useState("");
 
+
+//useEffect to check if the user is logged in or not
+useEffect(() => {
+  let user = localStorage.getItem("user");
+  let userObj;
+  if(user){
+    userObj = JSON.parse(user!);
+  }
+  if(userObj && userObj.username && userObj.password && userObj.username!== "" && userObj.password !== ""){
+    setUser(userObj);
+    navigate("/tasks");
+  }
+
+}, [navigate]);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     console.log("submitting");
@@ -39,14 +54,18 @@ function LoginPage() {
     try {
         let user = await login(username, password);
         setUser(user);
-      // else {
-      //   let user = await register(username, password, email);
-      //   setUser(user);
-      // }
       setStatus("success");
 
     } catch (e: any) {
       console.log("error", e);
+      if (e.response?.status === 404) {
+        setError("Incorrect username or password");
+      }else if(e.response?.status === 403){
+        setError("Incorrect username or password");
+      } 
+      else {
+        setError(e.message);
+      }
       setStatus("error");
     }
   };
@@ -55,9 +74,6 @@ function LoginPage() {
     return <div className="text-center">Loading...</div>;
   }
 
-  if (status === "error") {
-    return <div className="text-center">Error:</div>;
-  }
   if (status === "success") {
     console.log("-------success data---------");
     console.log(user);
@@ -113,7 +129,19 @@ function LoginPage() {
   //button to call handleSubmit function in my form
 
     return (
-      <div className="Auth-form-container">
+      <div className="Auth-form-container"  style={{ display: "flex", flexDirection: "column" }}>
+        {status === "error" && (
+        <div
+          style={{
+            backgroundColor: "#e57373",
+            textAlign: "center",
+            fontWeight: "bold",
+          }}
+          className="Auth-form"
+        >
+          {error}
+        </div>
+      )}
         <Form className="Auth-form" onSubmit={handleSubmit}>
           <div className="Auth-form-content">
             <h3 className="Auth-form-title">Sign In</h3>
