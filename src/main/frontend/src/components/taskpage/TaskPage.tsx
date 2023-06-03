@@ -64,6 +64,7 @@ function TaskPage() {
         {
           name: editName,
           description: editDescription,
+          // username:"test"
 
         },
         { headers: { "Access-Control-Allow-Origin": "*" } },
@@ -79,7 +80,8 @@ function TaskPage() {
   };
 
   const handleEdit = (id: number) => {
-    setUpdateState(id)
+    setUpdateState(id);
+    setAddTaskState(-1);
   }
   const deleteTaskRequest = async (id: number) => {
 
@@ -140,7 +142,7 @@ function TaskPage() {
         marginRight: "1%",
         marginBottom: "1%"
       }}>
-        <Button variant="contained" color="success" onClick={() => { setAddTaskState(1) }} style={{
+        <Button variant="contained" color="success" onClick={() => { setAddTaskState(1); setUpdateState(-1) }} style={{
           height: "100px",
           width: "100px",
           borderRadius: "50%",
