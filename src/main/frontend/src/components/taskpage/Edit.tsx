@@ -5,7 +5,7 @@ import React from "react";
 function Edit({task, editName, editDescription, setEditName, updateTaskRequest, setUpdateState, setEditDescription}:any) {
     return (  
         <Box  key={task.id} sx={{ minWidth: 250 }}>
-          <Card style={{ backgroundColor: "rgba(192, 245, 190 )", width: "50%"}} variant="outlined">  
+          <Card style={{ backgroundColor: "rgba(192, 245, 190 )", width: "50%", margin:"auto"}} variant="outlined">  
           <React.Fragment>
             <CardContent>
               <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
