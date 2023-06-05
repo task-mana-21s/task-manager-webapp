@@ -6,8 +6,10 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.validation.Valid;
+import lt.viko.eif.pss.taskmanagerwebapp.model.User;
 import lt.viko.eif.pss.taskmanagerwebapp.repository.TaskRepository;
 import lt.viko.eif.pss.taskmanagerwebapp.model.Task;
+import lt.viko.eif.pss.taskmanagerwebapp.repository.UserRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.hateoas.CollectionModel;
@@ -22,6 +24,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
@@ -37,14 +40,16 @@ class TaskController {
 
     private final Logger log = LoggerFactory.getLogger(TaskController.class);
     private TaskRepository taskRepository;
+    private UserRepository userRepository;
 
     /**
      * Instantiates a new Task controller.
      *
      * @param taskRepository the task repository
      */
-    public TaskController(TaskRepository taskRepository) {
+    public TaskController(TaskRepository taskRepository, UserRepository userRepository) {
         this.taskRepository = taskRepository;
+        this.userRepository = userRepository;
     }
 
     /**
@@ -100,16 +105,65 @@ class TaskController {
     /**
      * Create task response entity.
      *
-     * @param Task the task
+     * @param task the task
      * @return the response entity
      * @throws URISyntaxException the uri syntax exception
      */
     @PostMapping("/tasks")
-    ResponseEntity<Task> createTask(@Valid @RequestBody Task Task) throws URISyntaxException {
-        log.info("Request to create Task: {}", Task);
-        Task result = taskRepository.save(Task);
-        return ResponseEntity.created(new URI("/api/Task/" + result.getId()))
+    ResponseEntity<Task> createTask(@Valid @RequestBody Task task, @RequestBody(required=false) String username) throws URISyntaxException {
+        log.info("Request to create Task: {}{}", task, username);
+//        log.info("Request asdasdasd Task: {}{}",  username);
+//        if(task.getUser() != null){
+//            User user = userRepository.findByUsername(username);
+//            log.info("after findby");
+//            log.info(user.toString());
+//            if(user !=null){
+//                log.info("inside IF ");
+//                task.setUser(user);
+//            }
+//        }
+
+        Task result = taskRepository.save(task);
+        return ResponseEntity.created(new URI("/api/task/" + result.getId()))
                 .body(result);
+    }
+    /**
+     * asign user to a task.
+     *
+     * @param username and task id
+     * @return the response entity
+     * @throws URISyntaxException the uri syntax exception
+     */
+    @PostMapping("/tasks/{id}/user/{userId}")
+    ResponseEntity<Task> asignUserToTask(@PathVariable long userId, @PathVariable Long id) throws URISyntaxException {
+        log.info("Request to create Task: {}",  id);
+        Task task = taskRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+        if(userId ==-1){
+            task.setUser(null);
+            Task result = taskRepository.save(task);
+            return ResponseEntity.ok().body(result);
+        }
+        User user = userRepository.findById(userId).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+//        log.info(user.toString());
+//        log.info(user.toString());
+        task.setUser(user);
+//        log.info(task.toString());
+        Task result = taskRepository.save(task);
+        return ResponseEntity.ok().body(result);
+
+//        if(task.getUser() != null){
+//            User user = userRepository.findByUsername(username);
+//            log.info("after findby");
+//            log.info(user.toString());
+//            if(user !=null){
+//                log.info("inside IF ");
+//                task.setUser(user);
+//            }
+//        }
+//        Task result = taskRepository.save(task);
+//        return ResponseEntity.created(new URI("/api/task/" + result.getId()))
+//                .body(result);
+
     }
 
     /**

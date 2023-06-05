@@ -29,6 +29,11 @@ class Initializer implements CommandLineRunner {
                 .password(HashUtil.encryptPassword("12345"))
                 .build();
         userRepository.save(user);
+        var user3 = User.builder()
+                .username("Test2")
+                .email("test@ff.tt")
+                .password(HashUtil.encryptPassword("12345"))
+                .build();
         var user2 = User.builder()
                 .username("test")
                 .email("test123@ff.tt")
@@ -44,6 +49,7 @@ class Initializer implements CommandLineRunner {
         var author2 = Task.builder()
                 .name("Testing task")
                 .description("Testing and other things")
+                .user(user3)
                 .build();
         taskRepository.save(author2);
 

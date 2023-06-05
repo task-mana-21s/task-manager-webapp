@@ -12,6 +12,7 @@ import { TextField } from "@mui/material";
 import Edit from "./Edit";
 import AddIcon from '@mui/icons-material/Add';
 import AddTask from "./AddTask";
+import AssignUser from "./AssignUser";
 
 function TaskPage() {
   const [listOfTasks, setListOfTasks] = useState([]);
@@ -64,7 +65,9 @@ function TaskPage() {
         {
           name: editName,
           description: editDescription,
-          // username:"test"
+          // user:{
+          //   username: "user",
+          // }
 
         },
         { headers: { "Access-Control-Allow-Origin": "*" } },
@@ -102,7 +105,7 @@ function TaskPage() {
 
 
   return (
-    <><div className="HALLO">
+    <><div>
       {listOfTasks.map((task: taskData) => {
         return (
           updateState === task.id ? <Edit task={task} editName={editName} editDescription={editDescription} setEditName={setEditName} updateTaskRequest={updateTaskRequest} setUpdateState={setUpdateState} setEditDescription={setEditDescription} /> :
@@ -110,7 +113,7 @@ function TaskPage() {
               <Card style={{ backgroundColor: "rgba(192, 245, 190 )", width: "50%", margin: "auto" }} variant="outlined">  <React.Fragment>
                 <CardContent>
                   <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
-                    {task.user?.username}
+                  <AssignUser userOnTask={task?.user} taskId={task.id} getTaskRequest={getTaskRequest}/>
                   </Typography>
                   <Typography variant="h5" component="div">
                     {task.name}
@@ -131,7 +134,6 @@ function TaskPage() {
               </React.Fragment></Card>
             </Box>
         );
-
       })}
       {setAddTask === 1 && <AddTask editName={editName} editDescription={editDescription} setEditName={setEditName} createTaskRequest={createTaskRequest} setAddTaskState={setAddTaskState} setEditDescription={setEditDescription} />}
     </div>

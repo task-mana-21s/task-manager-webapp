@@ -1,9 +1,9 @@
 export type userData ={
     user_id?: number;
-    username: String;
-    password: String;
-    email?: String;
-    role?: String;
+    username: string;
+    password: string;
+    email?: string;
+    role?: string;
   }
 
   export type taskData ={

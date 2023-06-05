@@ -25,7 +25,7 @@ function AddTask({editName, editDescription, setEditName, createTaskRequest, set
           <React.Fragment>
             <CardContent>
               <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
-                {user? user.username : ""}
+                {/* {user? user.username : ""} */}
               </Typography>
               <TextField id="outlined-basic" label="Task name" variant="outlined" placeholder={"Task Name"}
             onChange={event => {
