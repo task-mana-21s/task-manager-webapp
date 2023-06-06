@@ -1,0 +1,39 @@
+.calendar-container {
+    position: relative;
+    width: 100%;
+    margin-left: auto;
+    text-align: right;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    padding-right: 30px;
+}
+
+.calendar {
+    position: absolute;
+    text-align: center;
+    font-family: cursive;
+    background-color: rgb(139, 12, 237);
+    right: 0;
+    top: 49px;
+}
+
+.calendarIcon {
+    display: block;
+    width: 100%;
+    background-color: rgb(5, 18, 113);
+    margin-left: 30px;
+}
+
+.holiday-text {
+    padding-right: 5px;
+    margin-bottom: 0;
+}
+
+.calendar-text {
+    display: flex;
+}
+
+.date-text {
+    margin-bottom: 0;
+}
