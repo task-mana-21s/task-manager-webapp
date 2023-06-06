@@ -136,6 +136,7 @@ function NavigationBar() {
               fontWeight: 700,
               letterSpacing: ".3rem",
               color: "inherit",
+              width: "100%",
               textDecoration: "none",
             }}
           >
