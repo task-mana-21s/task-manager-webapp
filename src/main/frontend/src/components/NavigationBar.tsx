@@ -14,6 +14,7 @@ import MenuItem from "@mui/material/MenuItem";
 import AdbIcon from "@mui/icons-material/Adb";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
+import HolidayCalendar from "./holidayCalendar/HolidayCalendar";
 
 const pages = ["tasks"];
 const settings = ["Profile","Logout"];
@@ -135,11 +136,15 @@ function NavigationBar() {
               fontWeight: 700,
               letterSpacing: ".3rem",
               color: "inherit",
+              width: "100%",
               textDecoration: "none",
             }}
           >
             TasksApplication
           </Typography>
+
+          <HolidayCalendar />
+
           <Box style={{flexDirection: "row-reverse",
                     marginRight: "2%"}} sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
             {pages.map((page) => (
