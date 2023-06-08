@@ -22,9 +22,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.Collection;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
@@ -39,13 +37,14 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 class TaskController {
 
     private final Logger log = LoggerFactory.getLogger(TaskController.class);
-    private TaskRepository taskRepository;
-    private UserRepository userRepository;
+    private final TaskRepository taskRepository;
+    private final UserRepository userRepository;
 
     /**
-     * Instantiates a new Task controller.
+     * Instantiates a new Task Controller.
      *
      * @param taskRepository the task repository
+     * @param userRepository the user repository
      */
     public TaskController(TaskRepository taskRepository, UserRepository userRepository) {
         this.taskRepository = taskRepository;
@@ -57,34 +56,23 @@ class TaskController {
      *
      * @return A collection of Task objects.
      */
-/*    @GetMapping("/tasks")
-    Collection<Task> Tasks() {
-        return taskRepository.findAll();
-    }*/
 
     @GetMapping("/tasks")
-    CollectionModel<EntityModel<Task>> Tasks() {
+    CollectionModel<EntityModel<Task>> getTasks() {
         List<EntityModel<Task>> Tasks = taskRepository.findAll().stream()
                 .map(Task -> EntityModel.of(Task,
                         WebMvcLinkBuilder.linkTo(methodOn(TaskController.class).getTask(Task.getId())).withSelfRel()))
                 .collect(Collectors.toList());
 
         return CollectionModel.of(Tasks,
-                WebMvcLinkBuilder.linkTo(methodOn(TaskController.class).Tasks()).withSelfRel());
+                WebMvcLinkBuilder.linkTo(methodOn(TaskController.class).getTasks()).withSelfRel());
     }
 
-/*    @GetMapping("/tasks/{id}")
-    ResponseEntity<?> getTask(@PathVariable Long id) {
-        Optional<Task> Task = taskRepository.findById(id);
-        return Task.map(response -> ResponseEntity.ok().body(response))
-                .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
-    }*/
-
     /**
-     * Gets task.
+     * Gets a task by its ID.
      *
-     * @param id the id
-     * @return the task
+     * @param id the ID of the task
+     * @return The task with the specified ID
      */
     @Operation(summary = "Get a task by its id")
     @ApiResponses(value = {
@@ -99,44 +87,35 @@ class TaskController {
     EntityModel<Task> getTask(@PathVariable Long id) {
         Task Task = taskRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
         return EntityModel.of(Task, WebMvcLinkBuilder.linkTo(methodOn(TaskController.class).getTask(id)).withSelfRel(),
-                WebMvcLinkBuilder.linkTo(methodOn(TaskController.class).Tasks()).withRel("tasks"));
+                WebMvcLinkBuilder.linkTo(methodOn(TaskController.class).getTasks()).withRel("tasks"));
     }
 
     /**
      * Create task response entity.
      *
-     * @param task the task
-     * @return the response entity
-     * @throws URISyntaxException the uri syntax exception
+     * @param task     the task to create
+     * @param username the username of the assigned user (optional)
+     * @return The created task
+     * @throws URISyntaxException if there is an issue with the URI syntax
      */
     @PostMapping("/tasks")
     ResponseEntity<Task> createTask(@Valid @RequestBody Task task, @RequestBody(required=false) String username) throws URISyntaxException {
         log.info("Request to create Task: {}{}", task, username);
-//        log.info("Request asdasdasd Task: {}{}",  username);
-//        if(task.getUser() != null){
-//            User user = userRepository.findByUsername(username);
-//            log.info("after findby");
-//            log.info(user.toString());
-//            if(user !=null){
-//                log.info("inside IF ");
-//                task.setUser(user);
-//            }
-//        }
 
         Task result = taskRepository.save(task);
         return ResponseEntity.created(new URI("/api/task/" + result.getId()))
                 .body(result);
     }
     /**
-     * asign user to a task.
+     * Assigns a user to a task.
      *
-     * @param username and task id
+     * @param userId the ID of the user to assign
+     * @param id     the ID of the task
      * @return the response entity
-     * @throws URISyntaxException the uri syntax exception
      */
     @PostMapping("/tasks/{id}/user/{userId}")
-    ResponseEntity<Task> asignUserToTask(@PathVariable long userId, @PathVariable Long id) throws URISyntaxException {
-        log.info("Request to create Task: {}",  id);
+    ResponseEntity<Task> assignUserToTask(@PathVariable long userId, @PathVariable Long id) {
+        log.info("Request to assign User: {} to Task: {}", userId,  id);
         Task task = taskRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
         if(userId ==-1){
             task.setUser(null);
@@ -144,26 +123,11 @@ class TaskController {
             return ResponseEntity.ok().body(result);
         }
         User user = userRepository.findById(userId).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
-//        log.info(user.toString());
-//        log.info(user.toString());
+
         task.setUser(user);
-//        log.info(task.toString());
+
         Task result = taskRepository.save(task);
         return ResponseEntity.ok().body(result);
-
-//        if(task.getUser() != null){
-//            User user = userRepository.findByUsername(username);
-//            log.info("after findby");
-//            log.info(user.toString());
-//            if(user !=null){
-//                log.info("inside IF ");
-//                task.setUser(user);
-//            }
-//        }
-//        Task result = taskRepository.save(task);
-//        return ResponseEntity.created(new URI("/api/task/" + result.getId()))
-//                .body(result);
-
     }
 
     /**
