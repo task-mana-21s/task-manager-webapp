@@ -1,5 +1,6 @@
 package lt.viko.eif.pss.taskmanagerwebapp;
 
+import lt.viko.eif.pss.taskmanagerwebapp.weatherService.WeatherApiIntegration;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -10,6 +11,11 @@ import org.springframework.web.filter.CorsFilter;
 
 @Configuration
 public class WebSecurity {
+
+    @Bean
+    public WeatherApiIntegration weatherApiIntegration() {
+        return new WeatherApiIntegration();
+    }
 
     @Bean
     public FilterRegistrationBean corsFilter() {

@@ -13,6 +13,7 @@ import Edit from "./Edit";
 import AddIcon from '@mui/icons-material/Add';
 import AddTask from "./AddTask";
 import AssignUser from "./AssignUser";
+import WeatherComponent, { getTemperatureForVilnius } from './WeatherComponent';
 
 function TaskPage() {
   const [listOfTasks, setListOfTasks] = useState([]);
@@ -105,7 +106,8 @@ function TaskPage() {
 
 
   return (
-    <><div>
+    <>
+    <div>
       {listOfTasks.map((task: taskData) => {
         return (
           updateState === task.id ? <Edit task={task} editName={editName} editDescription={editDescription} setEditName={setEditName} updateTaskRequest={updateTaskRequest} setUpdateState={setUpdateState} setEditDescription={setEditDescription} /> :
@@ -135,6 +137,7 @@ function TaskPage() {
             </Box>
         );
       })}
+      <WeatherComponent />
       {setAddTask === 1 && <AddTask editName={editName} editDescription={editDescription} setEditName={setEditName} createTaskRequest={createTaskRequest} setAddTaskState={setAddTaskState} setEditDescription={setEditDescription} />}
     </div>
       <div style={{
@@ -153,12 +156,9 @@ function TaskPage() {
           width: "70%"
         }} /></Button>
       </div>
-    </>);
-
-
+  </>);
 }
 
 export default TaskPage;
-
 
 
