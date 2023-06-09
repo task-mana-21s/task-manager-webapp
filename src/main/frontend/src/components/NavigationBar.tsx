@@ -15,6 +15,7 @@ import AdbIcon from "@mui/icons-material/Adb";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import HolidayCalendar from "./holidayCalendar/HolidayCalendar";
+import WeatherComponent from "./weatherDisplay/WeatherComponent";
 
 const pages = ["tasks"];
 const settings = ["Profile","Logout"];
@@ -142,8 +143,10 @@ function NavigationBar() {
           >
             TasksApplication
           </Typography>
-
+          
           <HolidayCalendar />
+
+          <WeatherComponent/>
 
           <Box style={{flexDirection: "row-reverse",
                     marginRight: "2%"}} sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>

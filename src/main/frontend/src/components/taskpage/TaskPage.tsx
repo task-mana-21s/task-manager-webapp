@@ -105,7 +105,8 @@ function TaskPage() {
 
 
   return (
-    <><div>
+    <>
+    <div>
       {listOfTasks.map((task: taskData) => {
         return (
           updateState === task.id ? <Edit task={task} editName={editName} editDescription={editDescription} setEditName={setEditName} updateTaskRequest={updateTaskRequest} setUpdateState={setUpdateState} setEditDescription={setEditDescription} /> :
@@ -153,12 +154,9 @@ function TaskPage() {
           width: "70%"
         }} /></Button>
       </div>
-    </>);
-
-
+  </>);
 }
 
 export default TaskPage;
-
 
 
