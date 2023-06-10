@@ -8,7 +8,9 @@ import lombok.NoArgsConstructor;
 
 
 import java.time.LocalDateTime;
-
+/**
+ * The User class represents a user entity.
+ */
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -18,13 +20,13 @@ import java.time.LocalDateTime;
 public class User {
     @Id
     @GeneratedValue
-    private Long user_id;
+    @Column(name = "userId")
+    private Long userId;
     @Column(unique=true)
     private String username;
     private String password;
     private String email;
-    private Long role_id;
-    private LocalDateTime created_at;
-    private LocalDateTime updated_at;
+    private LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
 
 }
