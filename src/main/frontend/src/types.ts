@@ -15,6 +15,6 @@ export type userData ={
   }
 
 export type statusData = {
-    status_id?: number;
+    id?: number;
     status: string;
 }

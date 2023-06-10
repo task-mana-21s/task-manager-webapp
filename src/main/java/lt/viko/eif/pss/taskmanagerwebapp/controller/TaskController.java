@@ -6,7 +6,9 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.validation.Valid;
+import lt.viko.eif.pss.taskmanagerwebapp.model.Status;
 import lt.viko.eif.pss.taskmanagerwebapp.model.User;
+import lt.viko.eif.pss.taskmanagerwebapp.repository.StatusRepository;
 import lt.viko.eif.pss.taskmanagerwebapp.repository.TaskRepository;
 import lt.viko.eif.pss.taskmanagerwebapp.model.Task;
 import lt.viko.eif.pss.taskmanagerwebapp.repository.UserRepository;
@@ -39,16 +41,19 @@ class TaskController {
     private final Logger log = LoggerFactory.getLogger(TaskController.class);
     private final TaskRepository taskRepository;
     private final UserRepository userRepository;
+    private final StatusRepository statusRepository;
 
     /**
      * Instantiates a new Task Controller.
      *
      * @param taskRepository the task repository
      * @param userRepository the user repository
+     * @param statusRepository the status repository
      */
-    public TaskController(TaskRepository taskRepository, UserRepository userRepository) {
+    public TaskController(TaskRepository taskRepository, UserRepository userRepository, StatusRepository statusRepository) {
         this.taskRepository = taskRepository;
         this.userRepository = userRepository;
+        this.statusRepository = statusRepository;
     }
 
     /**
@@ -125,6 +130,23 @@ class TaskController {
         User user = userRepository.findById(userId).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
 
         task.setUser(user);
+
+        Task result = taskRepository.save(task);
+        return ResponseEntity.ok().body(result);
+    }
+
+    @PostMapping("/tasks/{id}/status/{statusId}")
+    ResponseEntity<Task> assignStatusToTask(@PathVariable long statusId, @PathVariable Long id) {
+        log.info("Request to assign Status: {} to Task: {}", statusId,  id);
+        Task task = taskRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+        if(statusId ==-1){
+            task.setStatus(null);
+            Task result = taskRepository.save(task);
+            return ResponseEntity.ok().body(result);
+        }
+        Status status = statusRepository.findById(statusId).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+
+        task.setStatus(status);
 
         Task result = taskRepository.save(task);
         return ResponseEntity.ok().body(result);
