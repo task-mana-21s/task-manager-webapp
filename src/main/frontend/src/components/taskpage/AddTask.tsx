@@ -27,6 +27,9 @@ function AddTask({editName, editDescription, setEditName, createTaskRequest, set
               <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
                 {/* {user? user.username : ""} */}
               </Typography>
+                <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
+                    {/* {status? status.status : ""} */}
+                </Typography>
               <TextField id="outlined-basic" label="Task name" variant="outlined" placeholder={"Task Name"}
             onChange={event => {
               const { value } = event.target;

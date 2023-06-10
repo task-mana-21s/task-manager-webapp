@@ -11,4 +11,10 @@ export type userData ={
     name: String,
     description: String,
     user: userData,
+    status:statusData,
   }
+
+export type statusData = {
+    status_id?: number;
+    status: string;
+}
