@@ -6,7 +6,9 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-
+/**
+ * The Status class represents a status entity.
+ */
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
