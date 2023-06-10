@@ -21,8 +21,9 @@ const assignStatusToTaskRequest = async (statusId:number, id:number) => {
   try {
     console.log("REQUEST SENT ASSIGNSTATUS ")
     const { data: response } = await axios.post(
-      "http://localhost:8080/api/tasks/"+ id.toString()+"/status/"+statusId.toString(),
-      { headers: { "Access-Control-Allow-Origin": "*" } }
+        "http://localhost:8080/api/tasks/" + id.toString() + "/status/" + statusId.toString(),
+        {},
+        { headers: { "Access-Control-Allow-Origin": "*" } }
     );
     return response;
   } catch (error) {
@@ -38,7 +39,7 @@ const getAllStatus = async (): Promise<statusData[]> => {
     // console.log("get all status ", status);
     status = status.map((status: statusData) => {
       return {
-        status_id: status.status_id,
+        id: status.id,
         status: status.status,
       };
     });
@@ -103,7 +104,7 @@ export default function AssignStatus({statusOnTask, taskId, getTaskRequest}: {st
       value={selectedStatus}
       onChange={(event: any, newValue: statusData | null) => {
         if (newValue !== null) {
-          assignStatusToTaskRequest(newValue.status_id!, taskId);
+          assignStatusToTaskRequest(newValue.id!, taskId);
           setSelectedStatus(newValue)
           getTaskRequest();
         }else{
