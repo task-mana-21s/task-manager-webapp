@@ -20,6 +20,9 @@ import java.util.stream.Collectors;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
+/**
+ * The StatusController class provides RESTful endpoints for managing status entities.
+ */
 @RestController
 @RequestMapping("/api")
 @CrossOrigin
@@ -28,10 +31,21 @@ class StatusController {
     private final Logger log = LoggerFactory.getLogger(StatusController.class);
     private StatusRepository statusRepository;
 
+    /**
+     * Constructs a new StatusController with the given StatusRepository.
+     *
+     * @param statusRepository the status repository
+     */
     public StatusController(StatusRepository statusRepository) {
         this.statusRepository = statusRepository;
     }
 
+    /**
+     * Retrieves all statuses.
+     *
+     * @return a CollectionModel containing EntityModel representations of the statuses,
+     *         with self and statuses links
+     */
     @GetMapping("/status")
     CollectionModel<EntityModel<Status>> statuses() {
         log.info("GET ALL STATUS request");
@@ -43,6 +57,13 @@ class StatusController {
                 WebMvcLinkBuilder.linkTo(methodOn(StatusController.class).statuses()).withSelfRel());
     }
 
+    /**
+     * Retrieves a specific status by its ID.
+     *
+     * @param id the ID of the status to retrieve
+     * @return the EntityModel representation of the status, with self and statuses links
+     * @throws ResponseStatusException if the status with the given ID is not found
+     */
     @GetMapping("/statuses/{id}")
     EntityModel<Status> getStatus(@PathVariable Long id) {
         Status status = statusRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
@@ -50,6 +71,13 @@ class StatusController {
                 WebMvcLinkBuilder.linkTo(methodOn(StatusController.class).statuses()).withRel("statuses"));
     }
 
+    /**
+     * Creates a new status.
+     *
+     * @param status the status to create
+     * @return a ResponseEntity containing the created status and the location URI
+     * @throws URISyntaxException if the URI syntax is invalid
+     */
     @PostMapping("/statuses")
     ResponseEntity<Status> createStatus(@Valid @RequestBody Status status) throws URISyntaxException {
         log.info("Request to create Status: {}", status);
@@ -58,6 +86,14 @@ class StatusController {
                 .body(result);
     }
 
+    /**
+     * Updates an existing status.
+     *
+     * @param id     the ID of the status to update
+     * @param status the updated status
+     * @return a ResponseEntity containing the updated status
+     * @throws ResponseStatusException if the status with the given ID is not found
+     */
     @PutMapping("/statuses/{id}")
     ResponseEntity<Status> updateStatus(@PathVariable("id") Long id, @Valid @RequestBody Status status) {
         log.info("Request to update Status: {}", status);
@@ -69,6 +105,13 @@ class StatusController {
         return ResponseEntity.ok().body(result);
     }
 
+    /**
+     * Deletes a status by its ID.
+     *
+     * @param id the ID of the status to delete
+     * @return a ResponseEntity indicating the success of the operation
+     * @throws ResponseStatusException if the status with the given ID is not found
+     */
     @DeleteMapping("/statuses/{id}")
     public ResponseEntity<?> deleteStatus(@PathVariable Long id) {
         log.info("Request to delete Status: {}", id);
