@@ -17,7 +17,7 @@ import lombok.NoArgsConstructor;
 @Table(name = "status")
 public class Status {
     @Id
-    private Long Id;
+    private Long id;
 
     @Column(unique=true)
     private String status;

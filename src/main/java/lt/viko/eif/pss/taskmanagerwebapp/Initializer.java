@@ -48,19 +48,19 @@ class Initializer implements CommandLineRunner {
         userRepository.save(user2);
 
         var status1 = Status.builder()
-                .Id(1l)
+                .id(1l)
                 .status("To-do")
                 .build();
         statusRepository.save(status1);
 
         var status2 = Status.builder()
-                .Id(2l)
+                .id(2l)
                 .status("Doing")
                 .build();
         statusRepository.save(status2);
 
         var status3 = Status.builder()
-                .Id(3l)
+                .id(3l)
                 .status("Done")
                 .build();
         statusRepository.save(status3);
