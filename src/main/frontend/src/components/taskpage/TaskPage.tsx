@@ -1,6 +1,6 @@
 import axios from "axios";
 import { taskData } from "../../types";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import * as React from 'react';
 import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
@@ -8,11 +8,11 @@ import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
-import { TextField } from "@mui/material";
 import Edit from "./Edit";
 import AddIcon from '@mui/icons-material/Add';
 import AddTask from "./AddTask";
 import AssignUser from "./AssignUser";
+import AssignStatus from "./AssingStatus";
 
 function TaskPage() {
   const [listOfTasks, setListOfTasks] = useState([]);
@@ -115,6 +115,9 @@ function TaskPage() {
                 <CardContent>
                   <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
                   <AssignUser userOnTask={task?.user} taskId={task.id} getTaskRequest={getTaskRequest}/>
+                  </Typography>
+                  <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
+                    <AssignStatus statusOnTask={task?.status} taskId={task.id} getTaskRequest={getTaskRequest}/>
                   </Typography>
                   <Typography variant="h5" component="div">
                     {task.name}
