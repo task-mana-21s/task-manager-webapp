@@ -35,6 +35,7 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 @RestController
 @RequestMapping("/api")
 @CrossOrigin
+public
 class UserController {
 
     private final Logger log = LoggerFactory.getLogger(UserController.class);
@@ -57,14 +58,14 @@ class UserController {
 
 
     @GetMapping("/users")
-    CollectionModel<EntityModel<User>> Users() {
+    public CollectionModel<EntityModel<User>> getAllUsers() {
         log.info("GET ALL USERS request");
         List<EntityModel<User>> users = userRepository.findAll().stream()
                 .map(user -> EntityModel.of(user,
                         WebMvcLinkBuilder.linkTo(methodOn(UserController.class).getUser(user.getUser_id())).withSelfRel()))
                 .collect(Collectors.toList());
         return CollectionModel.of(users,
-                WebMvcLinkBuilder.linkTo(methodOn(UserController.class).Users()).withSelfRel());
+                WebMvcLinkBuilder.linkTo(methodOn(UserController.class).getAllUsers()).withSelfRel());
     }
 
 
@@ -84,10 +85,10 @@ class UserController {
             @ApiResponse(responseCode = "404", description = "User not found",
                     content = @Content)})
     @GetMapping("/users/{id}")
-    EntityModel<User> getUser(@PathVariable Long id) {
+    public EntityModel<User> getUser(@PathVariable Long id) {
         User user = userRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
         return EntityModel.of(user, WebMvcLinkBuilder.linkTo(methodOn(UserController.class).getUser(id)).withSelfRel(),
-                WebMvcLinkBuilder.linkTo(methodOn(UserController.class).Users()).withRel("users"));
+                WebMvcLinkBuilder.linkTo(methodOn(UserController.class).getAllUsers()).withRel("users"));
     }
 
     /**
@@ -98,7 +99,7 @@ class UserController {
      * @throws URISyntaxException the uri syntax exception
      */
     @PostMapping("/register")
-    ResponseEntity<User> createUser(@Valid @RequestBody User user) throws URISyntaxException {
+    public ResponseEntity<User> createUser(@Valid @RequestBody User user) throws URISyntaxException {
         log.info("Request to register User: {}", user);
         if(userRepository.findByUsername(user.getUsername())!= null){
             throw new ResponseStatusException(HttpStatus.CONFLICT);
@@ -116,7 +117,7 @@ class UserController {
      * @throws URISyntaxException the uri syntax exception
      */
     @PostMapping("/login")
-    ResponseEntity<User> singinUser(@Valid @RequestBody User user) throws URISyntaxException {
+    public ResponseEntity<User> singinUser(@Valid @RequestBody User user){
         log.error("Request to login User: {}", user);
         User userToBeChecked = this.userRepository.findByUsername(user.getUsername());
         if(userToBeChecked == null){
@@ -137,7 +138,7 @@ class UserController {
      * @return the response entity
      */
     @PutMapping("/users/{id}")
-    ResponseEntity<User> updateUser(@PathVariable("id") int userId,@Valid @RequestBody User user) {
+    public ResponseEntity<User> updateUser(@PathVariable("id") int userId,@Valid @RequestBody User user) {
         log.info("Request to update User: {}", user);
         if(userId != user.getUser_id()){
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
