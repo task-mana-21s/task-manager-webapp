@@ -38,11 +38,10 @@ const getAllUsers = async (): Promise<userData[]> => {
     // console.log("get all users ", user);
     user = user.map((user: userData) => {
       return {
-        user_id: user.user_id,
+        userId: user.userId,
         username: user.username,
         email: user.email,
         password: user.password,
-        role: user.role,
       };
     });
     return user;
@@ -106,7 +105,7 @@ export default function AssignUser({userOnTask, taskId, getTaskRequest}: {userOn
       value={selectedUser}
       onChange={(event: any, newValue: userData | null) => {
         if (newValue !== null) {
-          assignUserToTaskRequest(newValue.user_id!, taskId);
+          assignUserToTaskRequest(newValue.userId!, taskId);
           setSelectedUser(newValue)
           getTaskRequest();
         }else{

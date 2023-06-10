@@ -41,7 +41,7 @@ public class UserTest {
     @BeforeEach
     public void setup(){
         user  = User.builder()
-                .user_id(1L)
+                .userId(1L)
                 .username("Testing User")
                 .email("test@ff.tt")
                 .password(HashUtil.encryptPassword("12345"))
@@ -96,7 +96,7 @@ public class UserTest {
     @Test
     public void givenUserId_whenGetUserById_thenReturnUserObject(){
         given(userRepository.findById(1L)).willReturn(Optional.of(user));
-        User savedUser = userController.getUser(user.getUser_id()).getContent();
+        User savedUser = userController.getUser(user.getUserId()).getContent();
         assertThat(savedUser).isNotNull();
 
     }
@@ -108,7 +108,7 @@ public class UserTest {
         given(userRepository.save(user)).willReturn(user);
         user.setEmail("newemail@gmail.com");
         user.setUsername("new Name");
-        User updatedUser = userController.updateUser(Math.toIntExact(user.getUser_id()), user).getBody();
+        User updatedUser = userController.updateUser(Math.toIntExact(user.getUserId()), user).getBody();
         assert updatedUser != null;
         assertThat(updatedUser.getEmail()).isEqualTo("newemail@gmail.com");
         assertThat(updatedUser.getUsername()).isEqualTo("new Name");

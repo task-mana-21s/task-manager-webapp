@@ -15,14 +15,12 @@ import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -30,7 +28,7 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 
 /**
- * The type User controller.a
+ * The type User controller
  */
 @RestController
 @RequestMapping("/api")
@@ -62,7 +60,7 @@ class UserController {
         log.info("GET ALL USERS request");
         List<EntityModel<User>> users = userRepository.findAll().stream()
                 .map(user -> EntityModel.of(user,
-                        WebMvcLinkBuilder.linkTo(methodOn(UserController.class).getUser(user.getUser_id())).withSelfRel()))
+                        WebMvcLinkBuilder.linkTo(methodOn(UserController.class).getUser(user.getUserId())).withSelfRel()))
                 .collect(Collectors.toList());
         return CollectionModel.of(users,
                 WebMvcLinkBuilder.linkTo(methodOn(UserController.class).getAllUsers()).withSelfRel());
@@ -70,10 +68,10 @@ class UserController {
 
 
     /**
-     * Gets users.
+     * Gets the User by its id
      *
-     * @param id the id
-     * @return the user
+     * @param id the userId
+     * @return the user with the specified Id
      */
     @Operation(summary = "Get an User by its id")
     @ApiResponses(value = {
@@ -94,9 +92,9 @@ class UserController {
     /**
      * Create user response entity.
      *
-     * @param user
-     * @return the response entity
-     * @throws URISyntaxException the uri syntax exception
+     * @param user     the user to create
+     * @return The created user
+     * @throws URISyntaxException if there is an issue with the URI syntax
      */
     @PostMapping("/register")
     public ResponseEntity<User> createUser(@Valid @RequestBody User user) throws URISyntaxException {
@@ -106,15 +104,14 @@ class UserController {
         }
         user.setPassword(HashUtil.encryptPassword(user.getPassword()));
         User result = userRepository.save(user);
-        return ResponseEntity.created(new URI("/api/users/" + result.getUser_id()))
+        return ResponseEntity.created(new URI("/api/users/" + result.getUserId()))
                 .body(result);
     }
     /**
-     * Signin user response entity.
+     * signin User response entity.
      *
-     * @param user
-     * @return the response entity
-     * @throws URISyntaxException the uri syntax exception
+     * @param user that wants to signin
+     * @return the user entity that signed in
      */
     @PostMapping("/login")
     public ResponseEntity<User> singinUser(@Valid @RequestBody User user){
@@ -134,17 +131,18 @@ class UserController {
     /**
      * Update user response entity.
      *
-     * @param user
-     * @return the response entity
+     * @param userId that we want to update as path variable
+     * @param user that needs to be updated
+     * @return the response entity of the updated user
      */
     @PutMapping("/users/{id}")
     public ResponseEntity<User> updateUser(@PathVariable("id") int userId,@Valid @RequestBody User user) {
         log.info("Request to update User: {}", user);
-        if(userId != user.getUser_id()){
+        if(userId != user.getUserId()){
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
         }
         User userTemporary = userRepository.findByUsername(user.getUsername());
-        if(userTemporary != null && user.getUser_id() != userTemporary.getUser_id()){
+        if(userTemporary != null && user.getUserId() != userTemporary.getUserId()){
             throw new ResponseStatusException(HttpStatus.IM_USED);
         }
         User result = userRepository.save(user);
@@ -154,8 +152,8 @@ class UserController {
     /**
      * Delete user response entity.
      *
-     * @param id the id
-     * @return the response entity
+     * @param id of the user that we want to delete
+     * @return the response entity of the deleted user
      */
     @CrossOrigin
     @DeleteMapping("/users/{id}")
