@@ -14,9 +14,9 @@ interface Holiday {
 }
 
 function HolidayCalendar() {
-  const todayDate = format(new Date(), "yyyy-MM-dd");
+  //const todayDate = format(new Date(), "yyyy-MM-dd");
   // mocked data to display Holiday
-  // const todayDate = format(new Date(), "2023-12-24");
+  const todayDate = format(new Date(), "2023-12-24");
   const [holidayName, setHolidayName] = useState<string>("");
   const API_KEY = "2a998e4a7eb9363f1ec9d9c9b5deb730f82c7387";
   const country = "LT";

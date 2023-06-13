@@ -6,7 +6,7 @@
     display: flex;
     justify-content: flex-end;
     align-items: center;
-    padding-right: 30px;
+    padding-right: 70px;
 }
 
 .calendar {
@@ -20,7 +20,7 @@
 
 .calendarIcon {
     display: block;
-    width: 100%;
+    width: 30px;
     background-color: rgb(5, 18, 113);
     margin-left: 30px;
 }

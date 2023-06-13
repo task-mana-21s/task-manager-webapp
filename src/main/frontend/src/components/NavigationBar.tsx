@@ -18,7 +18,7 @@ import HolidayCalendar from "./holidayCalendar/HolidayCalendar";
 import WeatherComponent from "./weatherDisplay/WeatherComponent";
 
 const pages = ["tasks"];
-const settings = ["Profile","Logout"];
+const settings = ["Logout"];
 
 function NavigationBar() {
   const navigate = useNavigate();
@@ -149,7 +149,7 @@ function NavigationBar() {
           <WeatherComponent/>
 
           <Box style={{flexDirection: "row-reverse",
-                    marginRight: "2%"}} sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
+                    marginRight: "1%", marginLeft: "5%"}} sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
             {pages.map((page) => (
               <Button
                 key={page}
