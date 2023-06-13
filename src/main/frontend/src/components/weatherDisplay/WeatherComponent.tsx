@@ -40,7 +40,7 @@ const WeatherComponent = () => {
   };
 
   return (
-    <div>{temperature}</div>
+    <div style={{ width: "300px" }}>{`Vilnius: ${temperature}`}</div>
   );
 };
 
