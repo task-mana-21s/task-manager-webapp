@@ -1,4 +1,7 @@
 import { Box, Button, Card, CardActions, CardContent, TextField, Typography } from "@mui/material";
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 
 import React, { useEffect, useState } from "react";
 import { userData } from "../../types";
@@ -15,13 +18,22 @@ function AddTask({editName, editDescription, setEditName, createTaskRequest, set
         }
         if(userObj && userObj.username && userObj.password && userObj.username!== "" && userObj.password !== ""){
           setUser(userObj);
-    
+
         }
     }, []);
+    const handleCreateTask = () => {
+        createTaskRequest(null);
+        toast.success("Task created successfully!");
+    };
 
-    return (  
+    const handleCancel = () => {
+        setAddTaskState(-1);
+        toast.info("Task creation canceled.");
+    };
+
+    return (
         <Box   sx={{ minWidth: 250 }}>
-          <Card style={{ backgroundColor: "rgba(192, 245, 190 )", width: "50%", margin:"auto"}} variant="outlined">  
+          <Card style={{ backgroundColor: "rgba(192, 245, 190 )", width: "50%", margin:"auto"}} variant="outlined">
           <React.Fragment>
             <CardContent>
               <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
@@ -38,18 +50,25 @@ function AddTask({editName, editDescription, setEditName, createTaskRequest, set
             onChange={event => {
               const { value } = event.target;
               setEditDescription(value)}} />
-      
+
               {/* <Typography variant="body2">
                 {task.description}
               </Typography> */}
             </CardContent>
+
             <CardActions>
-              <Button variant="contained" type="submit" onClick={()=>{createTaskRequest(null)}}>Create Task</Button>
-              <Button variant="contained" type="submit" color="error" onClick={()=>{setAddTaskState(-1)}}>Cancel</Button>
-      
+                <Button variant="contained" type="submit" onClick={handleCreateTask}>
+                    Create Task
+
+                </Button>
+                <Button variant="contained" type="submit" color="error" onClick={handleCancel}>
+                    Cancel
+
+                </Button>
             </CardActions>
           </React.Fragment>
           </Card>
+            <ToastContainer/>
         </Box> );
 }
 
