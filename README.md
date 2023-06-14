@@ -39,7 +39,3 @@ Describes common issues while running a project
 5. **Push changes to GitHub:** After committing your changes, push them to GitHub. This uploads your changes to the repository and makes them available to others. You can do this by clicking on the "Git->Push" button in your IDE.
 6. **Create a pull request:** Once you have pushed your changes, create a pull request. This notifies others that you have made changes and allows them to review and merge your code. You can do this by clicking on the "Create pull request" button in GitHub.
 7. **Merge changes:** After your pull request has been reviewed and approved, merge your changes into the main branch. This incorporates your changes into the main codebase. You can do this by clicking on the "Merge pull request" button in GitHub.
-
-## Contributors
-* Vardenis
-* Pavardenis
