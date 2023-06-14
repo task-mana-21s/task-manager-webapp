@@ -28,14 +28,49 @@ class Initializer implements CommandLineRunner {
     public void run(String... strings) {
 
         var user = User.builder()
-                .username("Jonas Joanitis")
+                .username("Giedrius Mauza")
                 .email("test@ff.tt")
                 .password(HashUtil.encryptPassword("12345"))
                 .build();
         userRepository.save(user);
 
+        var user4 = User.builder()
+                .username("Simona Baguzyte")
+                .email("test@ff.tt")
+                .password(HashUtil.encryptPassword("12345"))
+                .build();
+        userRepository.save(user4);
+
+        var user5 = User.builder()
+                .username("Viktorija Jakubcevic")
+                .email("test@ff.tt")
+                .password(HashUtil.encryptPassword("12345"))
+                .build();
+        userRepository.save(user5);
+
+        var user6 = User.builder()
+                .username("Gabija Poskaite")
+                .email("test@ff.tt")
+                .password(HashUtil.encryptPassword("12345"))
+                .build();
+        userRepository.save(user6);
+
+        var user7 = User.builder()
+                .username("Evelina Rudzinskaite")
+                .email("test@ff.tt")
+                .password(HashUtil.encryptPassword("12345"))
+                .build();
+        userRepository.save(user7);
+
+        var user8 = User.builder()
+                .username("Lukas Karalis")
+                .email("test@ff.tt")
+                .password(HashUtil.encryptPassword("12345"))
+                .build();
+        userRepository.save(user8);
+
         var user3 = User.builder()
-                .username("Test2")
+                .username("Sindija Tamulyte")
                 .email("test@ff.tt")
                 .password(HashUtil.encryptPassword("12345"))
                 .build();
